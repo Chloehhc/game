@@ -1,5 +1,5 @@
 # Virus Game
-# Date: January 2021
+# Date: January 21, 2021
 # Block A1
 # Author: Chloe Hsieh
 
