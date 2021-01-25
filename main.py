@@ -1,12 +1,13 @@
-# Virus Game
+# VIRUS WIPE GAME
 # Date: January 21, 2021
-# Block A1
+# Block: A1
 # Author: Chloe Hsieh
 
-# Game Instructions:
-# You are in control of the hand (holding the wipe). Your goal is to wipe away all of the viruses on the screen to win!
-# Unfortunately, there are infected hands roaming around! If you hit three of these hands, the game ends and you lose.
-# However, each roll of toilet paper gives you an extra life!
+# GAME INSTRUCTIONS
+# You are in control of a hand holding a wipe.
+# Your goal is to wipe away all of the viruses!
+# Unfortunately, there are infected hands roaming around! Hitting three of them means game over.
+# However, not to worry, you can collect toilet paper rolls for extra lives!
 
 import random
 import pygame
@@ -20,9 +21,10 @@ HEIGHT = 830
 TITLE = "Virus Wipe"
 
 # Initial Amounts
-NUM_VIRUS = 50
+NUM_VIRUS = 70
 NUM_HAND = 11
 NUM_PAPER = 2
+
 
 # Virus (what you are trying to wipe away in the game)
 class Virus(pygame.sprite.Sprite):
@@ -32,13 +34,13 @@ class Virus(pygame.sprite.Sprite):
 
         # Virus Image
         self.image = pygame.image.load("./images/cvirus.png")
-        self.image = pygame.transform.scale(self.image, (53, 58))
+        self.image = pygame.transform.scale(self.image, (43, 48))
 
         self.rect = self.image.get_rect()
 
         # Velocity of virus
-        self.x_vel = 6
-        self.y_vel = 6
+        self.x_vel = 3
+        self.y_vel = 3
 
     def update(self):
         # Move the virus
@@ -58,12 +60,12 @@ class Hand(pygame.sprite.Sprite):
 
         # Scissor Image
         self.image = pygame.image.load("./images/hand.png")
-        self.image = pygame.transform.scale(self.image, (150, 150))
+        self.image = pygame.transform.scale(self.image, (120, 120))
 
         self.rect = self.image.get_rect()
 
         # Hand Velocity
-        self.x_vel = 8
+        self.x_vel = 15
 
     def update(self):
         # Move Hands horizontally
@@ -83,8 +85,8 @@ class Paper(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
-        self.x_vel = 7
-        self.y_vel = 7
+        self.x_vel = 2
+        self.y_vel = 2
 
     def update(self):
         # Move paper
@@ -220,6 +222,7 @@ def main():
             print("Oh no... you lost!")
             break
 
+    # Ending
     print("Thanks for playing!")
     pygame.quit()
 
