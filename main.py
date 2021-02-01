@@ -1,26 +1,28 @@
 # KEYBOARD WIPE GAME
+
 # Date: January 21, 2021
 # Block: A1
 # Author: Chloe Hsieh
 
-# GAME INSTRUCTIONS -------------------------------------------------------
+# GAME INSTRUCTIONS ------------------------------------------------------------------------------------
 # It's the end of programming class and it's time to wipe down your keyboard.
 # You are in control of a hand holding a wipe.
-# Your goal is to wipe away all of the viruses!
-# Unfortunately, there are infected hands roaming around! Hitting three of them means game over.
-# However, not to worry, you can collect toilet paper rolls for extra lives!
-# --------------------------------------------------------------------------
+# Your goal is to wipe away all of the viruses, which are contained on the keyboard only!
+# Unfortunately, there are infected hands roaming around that can move in and outside of the keyboard!
+# Hitting three infected hands means game over.
+# However, you can collect toilet paper rolls for extra lives; keep an eye out, they can move anywhere!
+# -------------------------------------------------------------------------------------------------------
 
 import random
 import pygame
 
 # CONSTANTS
 # Screen
-WIDTH = 1350
+WIDTH = 1500
 HEIGHT = 800
 
-# Keyboard Dimensions
-KEYBOARD_RIGHT = 1290
+# Keyboard (in the background) Dimensions
+KEYBOARD_RIGHT = 1440
 KEYBOARD_LEFT = 60
 KEYBOARD_TOP = 670
 KEYBOARD_BOTTOM = 120
@@ -29,14 +31,14 @@ TITLE = "KEYBOARD WIPE"
 
 # Initial Amounts
 NUM_VIRUS = 100
-NUM_HAND = 7
-NUM_PAPER = 2
+NUM_HAND = 8
+NUM_PAPER = 3
 
 
-# VIRUS (what you are trying to wipe away in the game)
+# VIRUS (what user is trying to wipe away)
 class Virus(pygame.sprite.Sprite):
+    """ Set velocity and image for virus. """
     def __init__(self):
-        # call the superclass constructor
         super().__init__()
 
         # Virus Image
@@ -50,6 +52,7 @@ class Virus(pygame.sprite.Sprite):
         self.y_vel = 3
 
     def update(self):
+        """ Set movement directions for virus and keep it inside the keyboard image. """
         # Move the virus
         self.rect.x += self.x_vel
         self.rect.y += self.y_vel
@@ -62,12 +65,13 @@ class Virus(pygame.sprite.Sprite):
 
 # INFECTED HAND (enemy)
 class Hand(pygame.sprite.Sprite):
+    """ Set image and velocity for enemy hand. """
     def __init__(self):
         super().__init__()
 
-        # Scissor Image
+        # Hand image for enemy
         self.image = pygame.image.load("./images/hand.png")
-        self.image = pygame.transform.scale(self.image, (120, 120))
+        self.image = pygame.transform.scale(self.image, (83, 168))
 
         self.rect = self.image.get_rect()
 
@@ -75,7 +79,8 @@ class Hand(pygame.sprite.Sprite):
         self.x_vel = 6
 
     def update(self):
-        # Move Hands horizontally
+        """ Set movement directions for enemy hand. """
+        # Move hands horizontally
         self.rect.x += self.x_vel
 
         # Keep hands in the screen
@@ -84,18 +89,22 @@ class Hand(pygame.sprite.Sprite):
 
 # TOILET PAPER (gives extra life in game)
 class Paper(pygame.sprite.Sprite):
+    """ Set image and velocity for toilet paper."""
     def __init__(self):
         super().__init__()
 
+        # Use toilet paper roll image
         self.image = pygame.image.load("./images/paper.png")
         self.image = pygame.transform.scale(self.image, (60, 66))
 
         self.rect = self.image.get_rect()
 
+        # Velocity of toilet paper
         self.x_vel = 2
         self.y_vel = 2
 
     def update(self):
+        """ Set movement directions for toilet paper. """
         # Move paper
         self.rect.x += self.x_vel
         self.rect.y += self.y_vel
@@ -106,9 +115,9 @@ class Paper(pygame.sprite.Sprite):
         if self.rect.top > HEIGHT or self.rect.bottom < 0:
             self.y_vel *= -1
 
-
 # HAND HOLDING WIPE/PLAYER (User controlled)
 class Player(pygame.sprite.Sprite):
+    """ Set image for user-controlled hand holding wipe. """
     def __init__(self):
         super().__init__()
 
@@ -119,17 +128,18 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self):
-        # Control player with mouse
+        """ Allow user to control hand using mouse. """
         self.rect.center = pygame.mouse.get_pos()
 
 # BACKGROUND
 class Background(pygame.sprite.Sprite):
+    """ Set keyboard a background. """
     def __init__(self):
         super().__init__()
 
-        # Use keyboard as backhround
+        # Use keyboard image
         self.image = pygame.image.load("./images/keyboard.jpeg")
-        self.image = pygame.transform.scale(self.image, (1350, 800))
+        self.image = pygame.transform.scale(self.image, (1500, 800))
 
         self.rect = self.image.get_rect()
 
@@ -187,7 +197,7 @@ def main():
         hand.rect.x = random.randrange(WIDTH - hand.rect.width)
         hand.rect.y = random.randrange(HEIGHT - hand.rect.height)
 
-        # Add scissor to sprite groups
+        # Add hand to sprite groups
         all_sprites.add(hand)
         hand_group.add(hand)
 
@@ -211,16 +221,16 @@ def main():
             # add 1 to score for each virus collected
             score += 1
 
-        # PLAYER COLLIDES WITH HAND
+        # PLAYER COLLIDES WITH INFECTED HAND
         hand_hit = pygame.sprite.spritecollide(player, hand_group, True)
         for hand in hand_hit:
-            # add 1 to hit count each time user hits hand
+            # add 1 to hit count each time user hits infected hand
             hit_count += 1
 
-        # PPLAYER COLLIDES WITH PAPER
+        # PLAYER COLLIDES WITH PAPER
         paper_collected = pygame.sprite.spritecollide(player, paper_group, True)
         for paper in paper_collected:
-            # gives 1 extra life to player each time player collects player by -1 from hit count
+            # gives 1 extra life to player each time player collects toilet paper by -1 from hit count
             hit_count -= 1
 
         # DRAW
@@ -234,22 +244,24 @@ def main():
         # End game if all viruses have been wiped away
         if score == NUM_VIRUS:
             print()
-            print("--------------------")
-            print("Congratulations, you won!")
+            print("------------------------------------------------------------------")
+            print("Congratulations, your keyboard has been immaculately cleansed!")
             break
 
         # PLAYER LOSES
-        # If hit count is equal to 3, end the game.
+        # End game if hit count is equal to 3.
         elif hit_count == 3:
-            print("--------------------")
-            print("Oh no... you lost!")
+            print()
+            print("------------------------------------------------------------------")
+            print("Oh no... you came into contact with too many infected hands!")
             break
 
     # ENDING MESSAGE
     # Tell user their score (since total virus = 100, # virus wiped away = %)
     print(f"You wiped away {score}% of the viruses!")
-    print("Thanks for playing!")
-    print("--------------------")
+    print()
+    print("Thank you for playing!")
+    print("------------------------------------------------------------------")
     pygame.quit()
 
 if __name__ == "__main__":
