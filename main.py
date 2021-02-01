@@ -3,12 +3,13 @@
 # Block: A1
 # Author: Chloe Hsieh
 
-# GAME INSTRUCTIONS
-# It's the end of programming class and it's time to wipe down the keyboard.
+# GAME INSTRUCTIONS -------------------------------------------------------
+# It's the end of programming class and it's time to wipe down your keyboard.
 # You are in control of a hand holding a wipe.
 # Your goal is to wipe away all of the viruses!
 # Unfortunately, there are infected hands roaming around! Hitting three of them means game over.
 # However, not to worry, you can collect toilet paper rolls for extra lives!
+# --------------------------------------------------------------------------
 
 import random
 import pygame
