@@ -4,14 +4,14 @@
 # Block: A1
 # Author: Chloe Hsieh
 
-# GAME INSTRUCTIONS ------------------------------------------------------------------------------------
-# It's the end of programming class and it's time to wipe down your keyboard.
-# You are in control of a hand holding a wipe.
-# Your goal is to wipe away all of the viruses, which are contained on the keyboard only!
-# Unfortunately, there are infected hands roaming around that can move in and outside of the keyboard!
-# Hitting three infected hands means game over.
-# However, you can collect toilet paper rolls for extra lives; keep an eye out, they can move anywhere!
-# -------------------------------------------------------------------------------------------------------
+# GAME INSTRUCTIONS ---------------------------------------------------------------------------------------------
+# Programming class has concluded and it's time to wipe down your keyboard.
+# You're in control of a hand holding a wipe.
+# Your goal is to wipe away all the viruses; they are confined to the keyboard!
+# Unfortunately, infected hands are roaming around both on and outside of the keyboard!
+# Each time you come in contact with an infected hand, you lose a life; you initially have three lives.
+# However, collecting one toilet paper roll equates to gaining one life; keep an eye out, they can move anywhere!
+# ----------------------------------------------------------------------------------------------------------------
 
 import random
 import pygame
@@ -31,8 +31,8 @@ TITLE = "KEYBOARD WIPE"
 
 # Initial Amounts
 NUM_VIRUS = 100
-NUM_HAND = 8
-NUM_PAPER = 3
+NUM_HAND = 7
+NUM_PAPER = 2
 
 
 # VIRUS (what user is trying to wipe away)
@@ -164,11 +164,11 @@ def main():
     hand_group = pygame.sprite.Group()
     paper_group = pygame.sprite.Group()
 
-    # BACKGROUND CREATION
+    # BACKGROUND (KEYBOARD) CREATION
     background = Background()
     all_sprites.add(background)
 
-    # PAPER CREATION
+    # TOILET PAPER CREATION
     for i in range(NUM_PAPER):
         paper = Paper()
         # Spawn inside visible screen
@@ -190,7 +190,7 @@ def main():
         all_sprites.add(virus)
         virus_group.add(virus)
 
-    # HAND CREATION
+    # INFECTED HAND CREATION
     for i in range(NUM_HAND):
         hand = Hand()
         # Spawn inside visible screen
@@ -249,7 +249,7 @@ def main():
             break
 
         # PLAYER LOSES
-        # End game if hit count is equal to 3.
+        # End game if hit count is equal to 3
         elif hit_count == 3:
             print()
             print("------------------------------------------------------------------")
